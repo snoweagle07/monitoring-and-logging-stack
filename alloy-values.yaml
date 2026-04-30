@@ -1,0 +1,29 @@
+controller:
+  type: daemonset
+
+  extraVolumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+        type: Directory
+    - name: varlogcontainers
+      hostPath:
+        path: /var/log/containers
+        type: Directory
+
+  extraVolumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+    - name: varlogcontainers
+      mountPath: /var/log/containers
+      readOnly: true
+
+rbac:
+  create: true
+
+alloy:
+  configMap:
+    create: false
+    name: grafana-alloy-config
+    key: config.alloy
