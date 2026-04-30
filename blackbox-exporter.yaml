@@ -1,0 +1,30 @@
+global:
+  pullSecrets:
+    - name: gcr-regcreds
+
+image:
+  registry: asia-south1-docker.pkg.dev
+  repository: testhatmap/prod-docker-registry/monitoring/blackbox-exporter
+  tag: v0.28.0
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: gcr-regcreds
+
+serviceMonitor:
+  enabled: true
+  defaults:
+    module: http_concinity_ui
+
+config:
+  modules:
+    http_concinity_ui:
+      prober: http
+      timeout: 10s
+      http:
+        method: GET
+        follow_redirects: true
+        valid_status_codes: []
+        preferred_ip_protocol: ip4
+        tls_config:
+          insecure_skip_verify: true
